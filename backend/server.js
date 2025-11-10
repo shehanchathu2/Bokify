@@ -4,6 +4,7 @@ import cors from "cors"
 import connectDB from './config/mogodb.js'
 import {  clerkMiddleware } from '@clerk/express'
 import clerkWbohooks from './controllers/clerkWebhooks.js'
+import { userRoute } from './routes/UserRoutes.js'
 
 
 
@@ -20,7 +21,8 @@ app.use(clerkMiddleware())
 app.use('api/clerk', clerkWbohooks)
 
 
-app.get('/' , (req,res)=>res.send('API working'))
+app.get('/', (req, res) => res.send('API working'))
+app.use('api/user', userRoute)
 
 const PORT = process.env.PORT || 5000
 
