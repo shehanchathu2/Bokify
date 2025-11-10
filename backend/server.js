@@ -5,6 +5,7 @@ import connectDB from './config/mogodb.js'
 import {  clerkMiddleware } from '@clerk/express'
 import clerkWbohooks from './controllers/clerkWebhooks.js'
 import { userRoute } from './routes/UserRoutes.js'
+import hotelRouter from './routes/HotelRoute.js'
 
 
 
@@ -23,6 +24,7 @@ app.use('api/clerk', clerkWbohooks)
 
 app.get('/', (req, res) => res.send('API working'))
 app.use('api/user', userRoute)
+app.use('api/hotels', hotelRouter)
 
 const PORT = process.env.PORT || 5000
 
