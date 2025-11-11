@@ -1,0 +1,32 @@
+import mongoose from "mongoose";
+
+const bookingScema = new mongoose.Schema({
+    user:{type:String,ref:"User",required:true},
+    room:{type:String,ref:"Room",required:true},
+    hotel:{type:String,ref:"Hotel",required:true},
+    checkInDate:{type:Date,required:true},
+    checkOutDate:{type:Date,required:true},
+    guests: { type: Number, ref: "User", required: true },
+    status: {
+        type: String,
+        enum: ["pending", "confirmed", "cancelled"],
+        default:"pending",
+    },
+    paymentMethod: {
+        type: String,
+        required: true,
+        default:"Pay At hotel",
+    },
+    isPaid:{type:Boolean,default:false}
+}, { timestamps: true }
+)
+
+const Booking = mongoose.model("Booking", bookingScema)
+export default Booking
+
+
+
+
+
+
+
