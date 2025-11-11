@@ -12,6 +12,7 @@ import Layout  from './pages/hotelsadminpages/Layout'
 import Dashboard from './pages/hotelsadminpages/Dashboard'
 import AddHotel from './pages/hotelsadminpages/AddHotel'
 import AllHotels from './pages/hotelsadminpages/AllHotels'
+import {Toaster} from 'react-hot-toast'
   
   
   
@@ -21,6 +22,7 @@ const App = () => {
 
   return (
     <div>
+      <Toaster/>
       {!owner && <Navbar />}
       {false && <HotelsReg/>}
       <div className='min-h-[70vh]'>

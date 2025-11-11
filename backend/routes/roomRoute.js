@@ -1,6 +1,6 @@
 import express from 'express'
-import upload from '../middleware/UploadMiddleware'
-import { authUser } from '../middleware/AuthMiddleare'
+import upload from '../middleware/UploadMiddleware.js'
+import { authUser } from '../middleware/AuthMiddleare.js'
 import { createRoom, getOwnerRoom, getRoom, togleRoomAvailabily } from '../controllers/RoomController.js'
 
 
