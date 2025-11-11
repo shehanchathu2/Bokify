@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {useUser, useAuth} from '@clerk/clerk-react'
+import { useUser, useAuth } from '@clerk/clerk-react'
+import {toast} from 'react-hot-toast'
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKENT_URL
 
@@ -27,6 +28,7 @@ export const AppProvider = ({ children }) => {
                        }`
                }
            })
+            console.log(data)
             if (data.success) {
                 setIsOwner(data.role === "hotelOwner")
                 setSearchCities(data.recentSearchedCities)
@@ -36,13 +38,20 @@ export const AppProvider = ({ children }) => {
                 },5000)
             }
         } catch (error) {
-            toa
+            console.log(error)
+            toast.error(error.message)
         }
     }
 
+    useEffect(() => {
+        if (user) {
+            fetchUser()
+        }
+    },[user])
+
     const value = {
         currency, navigate, user, getToken, isOwner, setIsOwner, axios,
-        showHotelReg,setShowHotelReg
+        showHotelReg,setShowHotelReg,searchedCities,setSearchCities
     }
 
     return (

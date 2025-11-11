@@ -23,14 +23,14 @@ app.use(express.json())
 app.use(clerkMiddleware())
 
 // API
-app.use('api/clerk', clerkWbohooks)
+app.use('/api/clerk', clerkWbohooks)
 
 
 app.get('/', (req, res) => res.send('API working'))
-app.use('api/user', userRoute)
-app.use('api/hotels', hotelRouter)
-app.use('api/rooms', roomRouter)
-app.use('api/bookings', bookingRouter)
+app.use('/api/user', userRoute)
+app.use('/api/hotels', hotelRouter)
+app.use('/api/rooms', roomRouter)
+app.use('/api/bookings', bookingRouter)
 
 const PORT = process.env.PORT || 5000
 

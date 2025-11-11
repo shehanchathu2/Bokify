@@ -1,7 +1,8 @@
-import { useClerk, useUser, UserButton } from "@clerk/clerk-react";
+import { useClerk, UserButton } from "@clerk/clerk-react";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
+import { useAppContext } from "../context/appContext";
 
 
 const BookIcon = () => (
@@ -12,7 +13,7 @@ const BookIcon = () => (
 
 const Navbar = () => {
 
-    const navigate = useNavigate()
+
 
     const navLinks = [
         { name: 'Home', path: '/' },
@@ -26,9 +27,10 @@ const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const { openSignIn } = useClerk()
-    const { user } = useUser()
-    const naivgate = useNavigate()
+
     const location = useLocation()
+
+    const { user, navigate, isOwner, setShowHotelReg } = useAppContext()
 
     useEffect(() => {
         // Set scroll state based on pathname
@@ -60,9 +62,11 @@ const Navbar = () => {
                         <div className={`${isScrolled ? "bg-gray-700" : "bg-white"} h-0.5 w-0 group-hover:w-full transition-all duration-300`} />
                     </a>
                 ))}
-                <button onClick={() => naivgate('/owner')} className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${isScrolled ? 'text-black' : 'text-white'} transition-all`}>
-                    Dashboard
-                </button>
+                {user && (
+                    <button onClick={() => isOwner ? navigate('/owner') : setShowHotelReg(true)} className={`border px-4 py-1 text-sm font-light rounded-full cursor-pointer ${isScrolled ? 'text-black' : 'text-white'} transition-all`}>
+                        {isOwner ?  'Dashboard':'List Your Hotel'}
+                    </button>
+                )}
             </div>
 
 
@@ -74,14 +78,14 @@ const Navbar = () => {
 
                 {user ?
                     (<UserButton>
-                    <UserButton.MenuItems>
-                        <UserButton.Action
-                            label="My Bookings"
-                            labelIcon={<BookIcon />}
-                            onClick={() => navigate("/my-booking")}
-                        />
-                    </UserButton.MenuItems>
-                </UserButton>)
+                        <UserButton.MenuItems>
+                            <UserButton.Action
+                                label="My Bookings"
+                                labelIcon={<BookIcon />}
+                                onClick={() => navigate("/my-booking")}
+                            />
+                        </UserButton.MenuItems>
+                    </UserButton>)
                     :
                     (
                         <button onClick={openSignIn} className={`px-8 py-2.5 rounded-full ml-4 transition-all duration-500 ${isScrolled ? "text-white bg-black" : "bg-white text-black"}`}>
@@ -127,7 +131,7 @@ const Navbar = () => {
                     </a>
                 ))}
 
-                {user && <button onClick={() => naivgate('/owner')} className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
+                {user && <button onClick={() => navigate('/owner')} className="border px-4 py-1 text-sm font-light rounded-full cursor-pointer transition-all">
                     Dashboard
                 </button>}
 

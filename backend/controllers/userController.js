@@ -3,9 +3,10 @@
 export const getuserData = async (req,res) => {
     try {
         
+        console.log(req.user)
         const role = req.user.role
         const recentSearchedCities = req.user
-        res.json({success:true.role,recentSearchedCities})
+        res.json({success:true,role,recentSearchedCities})
 
     } catch (error) {
         res.json({success:false,message:error.message})

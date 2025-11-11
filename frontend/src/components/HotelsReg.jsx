@@ -1,9 +1,14 @@
 import React from 'react'
 import { X, Building2, Phone, MapPin, Map } from 'lucide-react'
 import footer from '../assets/footer.jpg'
+import { useAppContext } from '../context/appContext'
 
 
 const HotelsReg = () => {
+
+    const {setShowHotelReg} = useAppContext()
+
+
     return (
         <div className='fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4'>
             <div className='flex flex-col md:flex-row bg-white rounded-2xl max-w-4xl w-full shadow-2xl overflow-hidden'>
@@ -28,7 +33,7 @@ const HotelsReg = () => {
 
                 <div className='relative md:w-1/2 p-8 md:p-10'>
                     <button className='absolute top-6 right-6 p-2 hover:bg-gray-100 rounded-full transition-colors'>
-                        <X className='w-5 h-5 text-gray-600' />
+                        <X className='w-5 h-5 text-gray-600' onClick={()=>setShowHotelReg(false)}/>
                     </button>
 
                     <div className='md:mt-6'>
