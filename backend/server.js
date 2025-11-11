@@ -8,6 +8,7 @@ import { userRoute } from './routes/UserRoutes.js'
 import hotelRouter from './routes/HotelRoute.js'
 import connectCloudinary from './config/cloudinary.js'
 import roomRouter from './routes/roomRoute.js'
+import bookingRouter from './routes/BookingRoute.js'
 
 
 
@@ -29,6 +30,7 @@ app.get('/', (req, res) => res.send('API working'))
 app.use('api/user', userRoute)
 app.use('api/hotels', hotelRouter)
 app.use('api/rooms', roomRouter)
+app.use('api/bookings', bookingRouter)
 
 const PORT = process.env.PORT || 5000
 
