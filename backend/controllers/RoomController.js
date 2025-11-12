@@ -1,37 +1,40 @@
 import Hotel from '../modals/HotelModal.js'
 import { v2 as cloudinary } from 'cloudinary'
 import Room from '../modals/RoomModal.js'
-export const createRoom = async () => {
-    try {
-        
-        const { roomType, pricePerNight, amenities } = req.body 
-        const hotel = await Hotel.findOne({ owner: req.auth.userId })
-        
-        if (!hotel) {
-            return res.json({success:false,message:"Hotel not founded"})
-        }
+export const createRoom = async (req, res) => {
+  try {
+    const { roomType, pricePerNight, amenities } = req.body;
+    console.log("form data:", req.body);
+    console.log("files:", req.files);
 
-        //upload image
-        const uploadImage = req.files.map(async (file) => {
-            const res = await cloudinary.uploader.upload(file.path)
-            return res.secure_url;
-        })
-
-        const images = await Promice.all(uploadImage)
-
-        await Room.create({
-            hotel: hotel._id,
-            roomType,
-            pricePerNight: pricePerNight,
-            amenities: JSON.parse(amenities),
-            images
-        })
-        res.json({success:true,message:"Room create successfully"})
-
-    } catch (error) {
-        res.json({success:false,message:message.error})
+    const hotel = await Hotel.findOne({ owner: req.auth.userId });
+    if (!hotel) {
+      return res.json({ success: false, message: "Hotel not found" });
     }
-}
+
+    // upload images to Cloudinary
+    const uploadImage = req.files.map(async (file) => {
+      const result = await cloudinary.uploader.upload(file.path);
+      return result.secure_url;
+    });
+
+    const images = await Promise.all(uploadImage);
+
+    const room = await Room.create({
+      hotel: hotel._id,
+      roomType,
+      pricePerNight: Number(pricePerNight),
+      amenities: JSON.parse(amenities),
+      images,
+    });
+
+    res.json({ success: true, message: "Room created successfully", room });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error adding rooms" });
+  }
+};
+
 
 export const getRoom = async (req, res) => {
     try {
@@ -53,7 +56,7 @@ export const getRoom = async (req, res) => {
 export const getOwnerRoom = async (req, res) => {
     try {
         
-        const hotelData = await Hotel({ owner: req.auth.userId })
+        const hotelData = await Hotel.findOne({ owner: req.auth.userId })
         const rooms= await Room.find({hotel:hotelData._id.toString()}).populate("hotel")
         res.json({success:true,rooms})
 

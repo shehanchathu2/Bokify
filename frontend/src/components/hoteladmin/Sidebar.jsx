@@ -17,7 +17,7 @@ const Sidebar = ({setToken}) => {
     ]
 
     return (
-        <nav className='relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 w-72 h-screen overflow-hidden'>
+        <nav className='relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 w-72 h-screen overflow-hidden '>
             
             {/* <div className='absolute top-0 right-0 w-64 h-64 bg-teal-500/30 rounded-full blur-3xl'></div> */}
             

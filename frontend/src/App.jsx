@@ -23,26 +23,29 @@ const App = () => {
   const {showHotelReg} = useAppContext()
 
   return (
-    <div>
-      <Toaster/>
-      {!owner && <Navbar />}
-      {showHotelReg && <HotelsReg/>}
-      <div className='min-h-[70vh]'>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/hotel' element={<Hotels/>} />
-          <Route path='/hotel/:id' element={<HotelDetail/>} />
-          <Route path='/my-booking' element={<MyBooking/>} />
-          
-          <Route path='/owner' element={ <Layout/>}>
-            <Route index element={<Dashboard/>} />
-            <Route path='add-hotel' element={ <AddHotel/>} />
-            <Route index path='all-hotels' element={<AllHotels />} />
-          </Route>
-        </Routes>
-      </div>
-      <SriLankaFooter/>
-    </div>
+   <div>
+  <Toaster />
+  {!owner && <Navbar />}
+  {showHotelReg && <HotelsReg />}
+
+  <div className='min-h-[70vh]'>
+    <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/hotel' element={<Hotels />} />
+      <Route path='/hotel/:id' element={<HotelDetail />} />
+      <Route path='/my-booking' element={<MyBooking />} />
+
+      <Route path='/owner' element={<Layout />}>
+        <Route index element={<Dashboard />} />
+        <Route path='add-hotel' element={<AddHotel />} />
+        <Route path='all-hotels' element={<AllHotels />} />
+      </Route>
+    </Routes>
+  </div>
+
+  {!owner && <SriLankaFooter />}
+</div>
+
   )
 }
 

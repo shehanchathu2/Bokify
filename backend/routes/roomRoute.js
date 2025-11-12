@@ -6,10 +6,11 @@ import { createRoom, getOwnerRoom, getRoom, togleRoomAvailabily } from '../contr
 
 const roomRouter = express.Router()
 
-roomRouter.post('/',upload.array("image,4"),authUser,createRoom)
+roomRouter.post('/', upload.array("images",4), authUser, createRoom)
+
 roomRouter.get('/', getRoom)
-roomRouter.get('owner',authUser,getOwnerRoom)
-roomRouter.post('toggle-availability',authUser,togleRoomAvailabily)
+roomRouter.get('/owner',authUser,getOwnerRoom)
+roomRouter.post('/toggle-availability',authUser,togleRoomAvailabily)
 
 
 export default roomRouter

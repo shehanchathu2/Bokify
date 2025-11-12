@@ -1,21 +1,19 @@
 
 //user data
-export const getuserData = async (req,res) => {
+export const getuserData = async (req, res) => {
     try {
-        
-        console.log(req.user)
         const role = req.user.role
         const recentSearchedCities = req.user
-        res.json({success:true,role,recentSearchedCities})
+        res.json({ success: true, role, recentSearchedCities })
 
     } catch (error) {
-        res.json({success:false,message:error.message})
+        res.json({ success: false, message: error.message })
     }
 }
 
 //recent search citis
 
-export const recentSearchCities = async ()=> {
+export const recentSearchCities = async () => {
     try {
         const { recentSearchCities } = req.body
         const user = await req.user
@@ -27,10 +25,10 @@ export const recentSearchCities = async ()=> {
             user.recentSearchCities(recentSearchCities)
         }
         await user.save()
-        res.json({success:true,message:"city added"})
+        res.json({ success: true, message: "city added" })
 
     } catch (error) {
-        res.json({success:false,message:error.message})
+        res.json({ success: false, message: error.message })
     }
 }
 
