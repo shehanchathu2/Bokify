@@ -9,7 +9,7 @@ const bookingRouter= express.Router()
 bookingRouter.post('/check-availability',checkAvailabilityApi)
 bookingRouter.post('/book', authUser, makeBooking)
 bookingRouter.post('/user', authUser, getUserBooking)
-bookingRouter.post('/hotel', authUser, getHotelBookings)
+bookingRouter.get('/hotel', authUser, getHotelBookings)
 
 export default bookingRouter
 

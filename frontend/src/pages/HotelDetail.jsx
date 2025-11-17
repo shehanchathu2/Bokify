@@ -3,9 +3,11 @@ import { useParams } from 'react-router-dom'
 import { roomsDummyData } from '../assets/assets.js'
 import { roomCommonData } from '../assets/assets.js'
 import { MapPin, Star, Wifi, Car, Coffee, Utensils, Waves, Wind, Users, BedDouble, Maximize, Heart, Share2, ChevronLeft } from 'lucide-react';
+import { useAppContext } from '../context/appContext.jsx';
 
 const HotelDetail = () => {
 
+        const { rooms, navigate } = useAppContext()
     const { id } = useParams()
     const [hotel, setHotel] = useState(null)
     const [mainImage, setMainImage] = useState(null)

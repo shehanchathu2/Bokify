@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Search, MapPin, DollarSign, X, Wifi, Car, Coffee, Utensils, Waves, Mountain, Home, Building2, TreePine, ChevronRight } from 'lucide-react';
 import { roomsDummyData } from '../assets/assets.js'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { useAppContext } from '../context/appContext.jsx';
 
 
 const Hotels = () => {
+
+    const { rooms, navigate } = useAppContext()
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [selectedFilters, setSelectedFilters] = useState({
+        roomType: [],
+        priceRange:[]
+    })
+    const [selectedSort,setSelectedSort] = useState('')
+
     const [location, setLocation] = useState('');
     const [budget, setBudget] = useState('Any Budget Range');
     const [propertyTypes, setPropertyTypes] = useState({
@@ -16,7 +26,8 @@ const Hotels = () => {
         hotels: false,
         villas: false
     });
-    const navigate = useNavigate()
+
+
 
     useEffect(() => {
         console.log(roomsDummyData)
@@ -50,6 +61,8 @@ const Hotels = () => {
             [type]: !prev[type]
         }));
     };
+
+    
 
     return (
         <div className="min-h-screen bg-gray-50 pt-28 md:pt-35 px-4 md:px-16 lg-px-24 xl:px-32
@@ -163,7 +176,7 @@ const Hotels = () => {
 
                         {/* Hotel Cards Grid */}
                         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {roomsDummyData.map((hotel) => (
+                            {rooms.map((hotel) => (
                                 <div key={hotel._id} className="bg-white rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group">
                                     {/* Hotel Image */}
                                     <div className="relative h-64 overflow-hidden">

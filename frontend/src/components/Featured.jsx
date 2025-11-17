@@ -7,6 +7,7 @@ import { MapPin, Star, DollarSign } from "lucide-react"; // react-icons alternat
 
 
 const Featured = ({ room, index }) => {
+
   return (
     <motion.div
       key={room._id}
