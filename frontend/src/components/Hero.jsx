@@ -68,7 +68,7 @@ export default function HeroSection() {
                    Book your Stay
                 </p>
 
-                <h1 className="text-6xl  mb-4 tracking-tight">
+                <h1 className="text-8xl  mb-4 tracking-tight">
                     <h1 style={{ fontFamily: 'Lobster, cursive' }}>Visit Sri Lanka</h1>
                 </h1>
 
@@ -77,39 +77,16 @@ export default function HeroSection() {
                 </p>
 
 
-                <div className="w-full max-w-6xl bg-white/10 backdrop-blur-md p-4 rounded-3xl">
-                    <div className={`bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl p-3 transition-all duration-300 ${isSearchFocused ? 'scale-[1.02]' : ''
+                <div className="w-full max-w-6xl  p-4 rounded-3xl">
+                    <div className={`bg-white/10 backdrop-blur-md  rounded-3xl shadow-2xl p-3 transition-all duration-300 ${isSearchFocused ? 'scale-[1.02]' : ''
                         }`}>
                         <div className="flex flex-col lg:flex-row gap-3">
-                            <div className="flex-1 relative">
-                                <div className="flex items-center gap-3 p-4 rounded-2xl hover:bg-gray-50 transition-colors">
-                                    <MapPin className="w-5 h-5 text-blue-500" />
-                                    <div className="flex-1 text-left">
-                                        <label className="text-xs text-gray-500 font-medium block mb-1">Where to?</label>
-                                        <input
-                                            type="text"
-                                            value={destination}
-                                            onChange={(e) => setDestination(e.target.value)}
-                                            onFocus={() => setIsSearchFocused(true)}
-                                            onBlur={() => setIsSearchFocused(false)}
-                                            placeholder="Search destinations"
-                                            className="w-full text-gray-800 font-semibold outline-none bg-transparent placeholder:text-gray-400"
-                                        />
-                                    </div>
-                                    {destination && (
-                                        <button onClick={() => setDestination('')} className="text-gray-400 hover:text-gray-600">
-                                            <X className="w-4 h-4" />
-                                        </button>
-                                    )}
-                                </div>
-                            </div>
-
-
-                            <div className="flex-1">
+                            <div className="flex-1 bg-white rounded-lg">
                                 <div className="flex items-center gap-3 p-4 rounded-2xl hover:bg-gray-50 transition-colors cursor-pointer">
                                     <Calendar className="w-5 h-5 text-green-500" />
+                                    <label className="text-xs text-gray-500 font-medium block ">Check-in</label>
                                     <div className="flex-1 text-left">
-                                        <label className="text-xs text-gray-500 font-medium block mb-1">Check-in</label>
+                                        
                                         <input
                                             type="date"
                                             value={checkIn}
@@ -120,11 +97,12 @@ export default function HeroSection() {
                                 </div>
                             </div>
 
-                            <div className="flex-1">
+                            <div className="flex-1 bg-white rounded-lg">
                                 <div className="flex items-center gap-3 p-4 rounded-2xl hover:bg-gray-50 transition-colors cursor-pointer">
                                     <Calendar className="w-5 h-5 text-orange-500" />
+                                     <label className="text-xs text-gray-500 font-medium block ">Check-out</label>
                                     <div className="flex-1 text-left">
-                                        <label className="text-xs text-gray-500 font-medium block mb-1">Check-out</label>
+                                       
                                         <input
                                             type="date"
                                             value={checkOut}
@@ -134,7 +112,7 @@ export default function HeroSection() {
                                     </div>
                                 </div>
                             </div>
-                            <button className="lg:w-auto w-full px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            <button className="lg:w-auto w-full px-8 py-4 bg-gradient-to-br from-teal-900 via-teal-800 to-teal-700 hover:from-teal-600 hover:to-teal-700 text-white font-bold rounded-2xl flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                                 <Search className="w-5 h-5" />
                                 <span>Search</span>
                             </button>
