@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { MapPin, X, Calendar, Users, Tag, Search, ChevronDown, Sparkles } from 'lucide-react';
+import bg9 from '../assets/bg9.jpg'
+import bg2 from '../assets/bg2.jpg'
+import bg3 from '../assets/bg3.jpg'
+import bg4 from '../assets/bg4.jpg'
+import bg5 from '../assets/bg5.jpg'
+import bg6 from '../assets/bg6.jpg'
+import bg7 from '../assets/bg7.jpg'
+import bg8 from '../assets/bg8.jpg'
 
-const images = [
-    'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200',
-    'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1200',
-    'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1200'
-];
+
+const images = [bg9,bg2,bg3,bg4,bg5,bg6,bg7,bg8];
 
 export default function HeroSection() {
     const [current, setCurrent] = useState(0);
