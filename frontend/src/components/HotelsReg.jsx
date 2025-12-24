@@ -9,7 +9,7 @@ import { data } from 'react-router-dom'
 
 const HotelsReg = () => {
 
-    const { setShowHotelReg ,axios,getToken,setIsOwner} = useAppContext()
+    const { setShowHotelReg, axios, getToken, setIsOwner } = useAppContext()
 
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
@@ -18,31 +18,32 @@ const HotelsReg = () => {
 
 
     const submitHandller = async (e) => {
-            try {
-                e.preventDefault()
-                const { data } = await axios.post('/api/hotels/', {
-                    name, contact,address, city},{headers:{Authorization:`Bearer ${await getToken()}`}}
-                )
+        try {
+            e.preventDefault()
+            const { data } = await axios.post('/api/hotels/', {
+                name, contact, address, city
+            }, { headers: { Authorization: `Bearer ${await getToken()}` } }
+            )
 
-                console.log(data)
-                if (data.success) {
-                    toast.success(data.message)
-                    setIsOwner(true)
-                    setShowHotelReg(false)
-                } else {
+            console.log(data)
+            if (data.success) {
+                toast.success(data.message)
+                setIsOwner(true)
+                setShowHotelReg(false)
+            } else {
 
-                    toast.error(data.message)
-                }
-
-
-            } catch (error) {
-                console.log(error)
-               toast.error(error.message) 
+                toast.error(data.message)
             }
+
+
+        } catch (error) {
+            console.log(error)
+            toast.error(error.message)
+        }
     }
 
     return (
-        <div onClick={()=>setShowHotelReg(false)} className='fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4'>
+        <div onClick={() => setShowHotelReg(false)} className='fixed top-0 bottom-0 left-0 right-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4'>
             <div className='flex flex-col md:flex-row bg-white rounded-2xl max-w-4xl w-full shadow-2xl overflow-hidden'>
                 <div className='hidden md:block md:w-1/2 bg-gradient-to-br from-indigo-600 to-purple-600 p-10 relative overflow-hidden'>
                     <div className="absolute inset-0 z-0">
@@ -129,19 +130,28 @@ const HotelsReg = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor='city' className='flex items-center gap-2 font-semibold text-gray-700 mb-2 text-sm'>
-                                        <Map className='w-4 h-4 text-teal-600' />
+                                    <label
+                                        htmlFor="city"
+                                        className="flex items-center gap-2 font-semibold text-gray-700 mb-2 text-sm"
+                                    >
+                                        <Map className="w-4 h-4 text-teal-600" />
                                         City
                                     </label>
-                                    <input
-                                        type="text"
-                                        onChange={(e) => setCity(e.target.value)}
+
+                                    <select
+                                        id="city"
                                         value={city}
-                                        id='city'
-                                        className='border-2 border-gray-200 rounded-lg w-full px-4 py-3 outline-none focus:border-teal-500 transition-colors'
-                                        placeholder='City name'
+                                        onChange={(e) => setCity(e.target.value)}
+                                        className="border-2 border-gray-200 rounded-lg w-full px-4 py-3 outline-none focus:border-teal-500 transition-colors bg-white"
                                         required
-                                    />
+                                    >
+                                        <option value="">Select a city</option>
+                                        <option value="Matara">Matara</option>
+                                        <option value="Weligama">Weligama</option>
+                                        <option value="Kandy">Kandy</option>
+                                        <option value="Badulla">Badulla</option>
+                                        <option value="Ella">Ella</option>
+                                    </select>
                                 </div>
 
                                 <button className='w-full bg-gradient-to-r from-teal-600 to-teal-600 hover:from-teal-700 hover:to-teal-700 text-white font-semibold px-6 py-3.5 rounded-lg transition-all hover:shadow-lg mt-6'>

@@ -149,9 +149,9 @@ const AddHotel = () => {
                                         className='border opacity-70 border-gray-300 mt-1 rounded p-2 w-full'>
                                         <option value="">Select Room Type</option>
                                         <option value="Single bed">Single Bed</option>
-                                        <option value="">Double Bed</option>
-                                        <option value="">Luxury Room</option>
-                                        <option value="">Family Suite</option>
+                                        <option value="Double bed">Double Bed</option>
+                                        <option value="Luxury room">Luxury Room</option>
+                                        <option value="Family suite">Family Suite</option>
                                     </select>
                                 </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Search, MapPin, DollarSign, X, Wifi, Car, Coffee, Utensils, Waves, Mountain, Home, Building2, TreePine, ChevronRight } from 'lucide-react';
 import { roomsDummyData } from '../assets/assets.js'
 import { Navigate, useSearchParams } from 'react-router-dom';
@@ -7,13 +7,13 @@ import { useAppContext } from '../context/appContext.jsx';
 
 const Hotels = () => {
 
-    const { rooms, navigate } = useAppContext()
+    const { rooms, navigate, currency } = useAppContext()
     const [searchParams, setSearchParams] = useSearchParams()
     const [selectedFilters, setSelectedFilters] = useState({
         roomType: [],
-        priceRange:[]
+        priceRange: []
     })
-    const [selectedSort,setSelectedSort] = useState('')
+    const [selectedSort, setSelectedSort] = useState('')
 
     const [location, setLocation] = useState('');
     const [budget, setBudget] = useState('Any Budget Range');
@@ -30,13 +30,13 @@ const Hotels = () => {
 
 
     useEffect(() => {
-        console.log(roomsDummyData)
+        console.log(rooms)
     })
 
     const hotels = [
-    {
-      amenities: ['parking', 'restaurant', 'pet', 'fitness', 'wifi', 'pool']
-    },]
+        {
+            amenities: ['parking', 'restaurant', 'pet', 'fitness', 'wifi', 'pool']
+        },]
 
     const amenityIcons = {
         parking: Car,
@@ -62,7 +62,51 @@ const Hotels = () => {
         }));
     };
 
-    
+
+    const handleFilterChange = (checked, value, type) => {
+        setSelectedFilters((preFilters) => {
+            const updatedFlters = { ...preFilters }
+            if (checked) {
+                updatedFlters[type].push(value)
+            } else {
+                updatedFlters[type] = updatedFlters[type].filter(item => item !== value)
+            }
+            return updatedFlters
+        })
+    }
+    const filterByRoomType = (room) => {
+        if (selectedFilters.roomType.length === 0) return true;
+
+        return selectedFilters.roomType.includes(room.roomType);
+    };
+
+    const sortRooms = (a, b) => {
+        if (selectedSort === 'Price Low to High') {
+            return a.pricePerNight - b.pricePerNight
+        }
+        if (selectedSort === 'Price High to Low') {
+            return b.pricePerNight - a.pricePerNight
+        }
+        if (selectedSort === 'Newest First') {
+            return new Date(b.createdAt) - new Date(a.createdAt)
+        }
+        return 0;
+    }
+
+    const filterDestination = (room) => {
+        const destination = searchParams.get('destination')
+        if (!destination) return true
+        console.log(room.hotel.city.toLowerCase().includes(destination.toLowerCase()))
+        return room.hotel.city.toLowerCase().includes(destination.toLowerCase())
+    }
+
+    const clearFilter = () => {
+        setSelectedFilters({
+            roomType: [],
+            priceRange: [],
+        })
+
+    }
 
     return (
         <div className="min-h-screen bg-gray-50 pt-28 md:pt-35 px-4 md:px-16 lg-px-24 xl:px-32
@@ -126,29 +170,51 @@ const Hotels = () => {
                             <h3 className="text-xl font-bold text-gray-800 mb-4">Filter by:</h3>
 
                             <div className="border-t border-gray-200 pt-4">
-                                <h4 className="font-semibold text-gray-800 mb-4">Property Types:</h4>
+                                <h4 className="font-semibold text-gray-800 mb-4">Popular filters:</h4>
                                 <div className="space-y-3">
-                                    {Object.entries({
-                                        apartments: 'Apartments',
-                                        cabins: 'Cabins',
-                                        chalets: 'Chalets',
-                                        countryHouses: 'Country Houses',
-                                        guesthouse: 'Guesthouse',
-                                        hotels: 'Hotels',
-                                        villas: 'Villas'
-                                    }).map(([key, label]) => (
-                                        <label key={key} className="flex items-center gap-3 cursor-pointer group">
-                                            <input
-                                                type="checkbox"
-                                                checked={propertyTypes[key]}
-                                                onChange={() => togglePropertyType(key)}
-                                                className="w-4 h-4 text-teal-600 border-gray-300 rounded focus:ring-teal-500 cursor-pointer"
-                                            />
-                                            <span className="text-gray-700 group-hover:text-teal-600 transition-colors">
-                                                {label}
-                                            </span>
-                                        </label>
-                                    ))}
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            value="Single bed"
+                                            onChange={(e) =>
+                                                handleFilterChange(e.target.checked, "Single bed", "roomType")
+                                            }
+                                        />
+                                        Single Bed
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            value="Double bed"
+                                            onChange={(e) =>
+                                                handleFilterChange(e.target.checked, "Double bed", "roomType")
+                                            }
+                                        />
+                                        Double Bed
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            value="Luxury room"
+                                            onChange={(e) =>
+                                                handleFilterChange(e.target.checked, "Luxury room", "roomType")
+                                            }
+                                        />
+                                        Luxury Room
+                                    </label>
+
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            value="Family suite"
+                                            onChange={(e) =>
+                                                handleFilterChange(e.target.checked, "Family suite", "roomType")
+                                            }
+                                        />
+                                        Family Suite
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -176,60 +242,63 @@ const Hotels = () => {
 
                         {/* Hotel Cards Grid */}
                         <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-                            {rooms.map((hotel) => (
-                                <div key={hotel._id} className="bg-white rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group">
-                                    {/* Hotel Image */}
-                                    <div className="relative h-64 overflow-hidden">
-                                        <img
-                                            onClick={() => navigate(`/hotel/${hotel._id}`)}
-                                            src={hotel.images[0]}
-                                            alt={hotel.hotel.name}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                        />
+                            {rooms
+                                .filter(filterByRoomType)
+                                .filter(filterDestination)
+                                .map((hotel) => (
+                                    <div key={hotel._id} className="bg-white rounded-xl cursor-pointer overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group">
+                                        {/* Hotel Image */}
+                                        <div className="relative h-64 overflow-hidden">
+                                            <img
+                                                onClick={() => navigate(`/hotel/${hotel._id}`)}
+                                                src={hotel.images[0]}
+                                                alt={hotel.hotel.name}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                            />
+                                        </div>
+
+                                        {/* Hotel Info */}
+                                        <div className="p-5">
+                                            <h3 onClick={() => navigate(`/hotel/${hotel._id}`)} className="text-xl hover:underline  font-bold text-teal-800 mb-2 group-hover:text-teal-600 transition-colors">
+                                                {hotel.hotel.name}
+                                            </h3>
+                                            <div className="flex items-center gap-2 text-gray-600 mb-3">
+                                                <MapPin className="w-4 h-4" />
+                                                <span className="text-sm">{hotel.hotel.address}</span>
+
+                                            </div>
+                                            <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                                                vjnewokvnnevwn
+                                            </p>
+
+                                            {/* Amenities */}
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {hotel.amenities.map((amenity, idx) => {
+                                                    const Icon = amenityIcons[amenity] || Home;
+                                                    return (
+                                                        <div
+                                                            key={idx}
+                                                            className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center"
+                                                            title={amenity}
+                                                        >
+                                                            <Icon className="w-4 h-4 text-gray-600" />
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+
+                                            {/* Price */}
+                                            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                                                <span className="text-lg font-bold text-teal-800">
+                                                    LKR.{hotel.pricePerNight}/night
+                                                </span>
+                                                <button className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors duration-300 text-sm font-semibold">
+                                                    View Details
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
-
-                                    {/* Hotel Info */}
-                                    <div className="p-5">
-                                        <h3 onClick={() => navigate(`/hotel/${hotel._id}`)} className="text-xl hover:underline  font-bold text-teal-800 mb-2 group-hover:text-teal-600 transition-colors">
-                                            {hotel.hotel.name}
-                                        </h3>
-                                        <div className="flex items-center gap-2 text-gray-600 mb-3">
-                                            <MapPin className="w-4 h-4" />
-                                            <span className="text-sm">{hotel.hotel.address}</span>
-
-                                        </div>
-                                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                                            vjnewokvnnevwn
-                                        </p>
-
-                                        {/* Amenities */}
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            {hotel.amenities.map((amenity, idx) => {
-                                                const Icon = amenityIcons[amenity] || Home;
-                                                return (
-                                                    <div
-                                                        key={idx}
-                                                        className="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center"
-                                                        title={amenity}
-                                                    >
-                                                        <Icon className="w-4 h-4 text-gray-600" />
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-
-                                        {/* Price */}
-                                        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                                            <span className="text-lg font-bold text-teal-800">
-                                                LKR.{hotel.pricePerNight}/night
-                                            </span>
-                                            <button className="px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg transition-colors duration-300 text-sm font-semibold">
-                                                View Details
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                                ))}
                         </div>
 
                         {/* Pagination */}
