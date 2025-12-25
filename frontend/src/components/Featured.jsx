@@ -2,11 +2,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Star, DollarSign } from "lucide-react"; // react-icons alternative
+import { useAppContext } from "../context/appContext";
 // If you're using react-icons instead of lucide-react, import like:
 // import { FaMapMarkerAlt, FaStar, FaDollarSign } from "react-icons/fa";
 
 
 const Featured = ({ room, index }) => {
+
+
+  const { navigate } = useAppContext()
 
   return (
     <motion.div
@@ -27,15 +31,18 @@ const Featured = ({ room, index }) => {
 
       <div className="overflow-hidden">
         <motion.img
+          onClick={() => navigate(`/hotel/${room._id}`)}
           src={room.images[0]}
           alt={room.hotel.name}
-          className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer"
           whileHover={{ scale: 1.05 }}
         />
       </div>
 
       {/* Info Section */}
-      <div className="p-5 space-y-3">
+      <div className="p-5 space-y-3 cursor-pointer"
+        onClick={() => navigate(`/hotel/${room._id}`)}
+      >
         {/* Hotel Name */}
         <h2 className="text-xl font-bold text-gray-800">
           {room.hotel.name}
@@ -58,7 +65,7 @@ const Featured = ({ room, index }) => {
         <div className="flex justify-between items-center pt-2">
           <div className="flex items-center text-gray-800 font-semibold">
             LKR.
-            { room.pricePerNight}/night
+            {room.pricePerNight}/night
           </div>
 
           <Link

@@ -22,7 +22,7 @@ export default function HeroSection() {
     const [guests, setGuests] = useState({ rooms: 1, adults: 1, children: 0 });
     const [isSearchFocused, setIsSearchFocused] = useState(false);
 
-    const { navigate, getToken, axios, setSearchedCities } = useAppContext()
+    const { navigate, getToken, axios, setSearchCities } = useAppContext()
 
 
 
@@ -38,18 +38,23 @@ export default function HeroSection() {
         e.preventDefault()
         navigate(`/hotel?destination=${destination}`)
 
-        await axios.post('/api/user/store-recent-cities', {
-            recentSearchCities: destination
+        await axios.post(`/api/user/store-recent-cities`, {
+            recentSearchedCities: destination
         },
             {
-                Headers: { Authorization: `Bearer ${await getToken}` }
+                headers: {
+                    Authorization: `Bearer ${await
+                        getToken()
+                        }`
+                }
             })
 
-        setSearchedCities((prevSearchedCities) => {
+        setSearchCities((prevSearchedCities) => {
             const updatedSearchedCities = [...prevSearchedCities, destination]
             if (updatedSearchedCities.length > 3) {
                 updatedSearchedCities.shift()
             }
+            console.log("Updated cities:", updatedSearchedCities)
             return updatedSearchedCities
         })
     }

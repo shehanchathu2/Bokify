@@ -2,21 +2,24 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { roomsDummyData } from '../assets/assets.js'
 import { roomCommonData } from '../assets/assets.js'
-import { MapPin, Star, Wifi, Car, Coffee, Utensils, Waves, Wind, Users, BedDouble, Maximize, Heart, Share2, ChevronLeft } from 'lucide-react';
+import { MapPin, Star } from 'lucide-react';
 import { useAppContext } from '../context/appContext.jsx';
 
 const HotelDetail = () => {
 
-        const { rooms, navigate } = useAppContext()
+    const { rooms, navigate } = useAppContext()
     const { id } = useParams()
     const [hotel, setHotel] = useState(null)
     const [mainImage, setMainImage] = useState(null)
 
+    
+
+
     useEffect(() => {
-        const hotel = roomsDummyData.find(room => room._id == id)
+        const hotel = rooms.find(room => room._id === id)
         hotel && setHotel(hotel)
         hotel && setMainImage(hotel.images[0])
-    }, [])
+    }, [rooms])
 
     return hotel && (
 

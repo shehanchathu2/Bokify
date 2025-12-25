@@ -94,11 +94,20 @@ const Hotels = () => {
     }
 
     const filterDestination = (room) => {
-        const destination = searchParams.get('destination')
-        if (!destination) return true
-        console.log(room.hotel.city.toLowerCase().includes(destination.toLowerCase()))
-        return room.hotel.city.toLowerCase().includes(destination.toLowerCase())
-    }
+    const destination = searchParams.get('destination')
+    if (!destination) return true
+
+    console.log(
+      room.hotel.city
+        .toLowerCase()
+        .includes(destination.toLowerCase())
+    )
+
+    return room.hotel.city
+      .toLowerCase()
+      .includes(destination.toLowerCase())
+}
+
 
     const clearFilter = () => {
         setSelectedFilters({
@@ -264,7 +273,7 @@ const Hotels = () => {
                                             </h3>
                                             <div className="flex items-center gap-2 text-gray-600 mb-3">
                                                 <MapPin className="w-4 h-4" />
-                                                <span className="text-sm">{hotel.hotel.address}</span>
+                                                <span className="text-sm">{hotel.hotel.city}</span>
 
                                             </div>
                                             <p className="text-gray-600 text-sm mb-4 line-clamp-3">

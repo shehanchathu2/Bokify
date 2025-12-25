@@ -24,7 +24,6 @@ export const AppProvider = ({ children }) => {
     const fetchRoom = async () => {
         try {
             const { data } = await axios.get('/api/rooms')
-            console.log(data)
             if (data.success) {
                 setRooms(data.rooms)
             } else {
@@ -47,10 +46,11 @@ export const AppProvider = ({ children }) => {
                        }`
                }
            })
-            console.log(data)
+            
             if (data.success) {
                 setIsOwner(data.role === "hotelOwner")
                 setSearchCities(data.recentSearchedCities)
+                // console.log("recent search cities : ",data)
             } else {
                 setTimeout(() => { 
                     fetchUser()
