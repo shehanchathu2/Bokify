@@ -1,13 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Title from "../components/Title";
-import { userBookingsDummyData } from "../assets/assets.js";
 import { MapPin, Users, Calendar, CheckCircle2, XCircle, CreditCard } from "lucide-react";
+import { useAppContext } from "../context/appContext";
+import toast from "react-hot-toast";
 
 const MyBooking = () => {
-  const [bookings, setBookings] = useState(userBookingsDummyData);
+  const { getToken,axios ,user} = useAppContext()
+  const [booking, setBooking] = useState([])
+
+
+
+
+  const getUserBooking = async () => {
+    try {
+      const { data } = await axios.get('/api/bookings/user',
+        { headers: { Authorization: `Bearer ${await getToken()}` } })
+      
+      if (data.success) {
+        setBooking(data.bookings)
+        console.log(data)
+      } else {
+        console.log("error data fetching")
+        toast.error("error data fetching")
+      }
+    } catch (error) {
+      console.log("error data fetching")
+      toast.error("error data fetching")
+    }
+  }
 
   useEffect(() => {
-    console.log(userBookingsDummyData);
+    getUserBooking()
   }, []);
 
   return (
@@ -20,7 +43,7 @@ const MyBooking = () => {
         />
 
         <div className="mt-10 space-y-8">
-          {bookings.map((b) => (
+          {booking.map((b) => (
             <div
               key={b._id}
               className="bg-white rounded-3xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 group"

@@ -45,13 +45,14 @@ export const makeBooking = async (req, res) => {
             room
         })
 
-        if (isAvailable) {
+        if (!isAvailable) {
             return res.json({ success: false, message: "Rooms is not available" })
 
         }
 
         const roomData = await Room.findById(room).populate("hotel")
         let totalPrice = roomData.pricePerNight
+        console.log(roomData)
 
         const checkIn = new Date(checkInDate)
         const checkOut = new Date(checkOutDate)

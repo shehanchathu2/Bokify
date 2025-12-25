@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { MapPin, Star, DollarSign } from "lucide-react"; // react-icons alternative
 import { useAppContext } from "../context/appContext";
-// If you're using react-icons instead of lucide-react, import like:
-// import { FaMapMarkerAlt, FaStar, FaDollarSign } from "react-icons/fa";
 
 
 const Featured = ({ room, index }) => {

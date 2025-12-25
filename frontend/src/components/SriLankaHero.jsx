@@ -5,10 +5,10 @@ const SriLankaHero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const images = [
-    "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop", // Colombo cityscape
-    "https://images.unsplash.com/photo-1608748776558-0e0e4370bda0?w=800&h=600&fit=crop", // Beach
-    "https://images.unsplash.com/photo-1571161584142-68efa7781779?w=800&h=600&fit=crop", // Temple
-    "https://images.unsplash.com/photo-1584646098378-0874589d76b1?w=800&h=600&fit=crop", // Tea plantation
+    "https://images.pexels.com/photos/34002561/pexels-photo-34002561.jpeg", 
+    "https://images.pexels.com/photos/5488184/pexels-photo-5488184.jpeg", 
+    "https://images.pexels.com/photos/12969375/pexels-photo-12969375.jpeg", 
+    "https://images.pexels.com/photos/12702575/pexels-photo-12702575.jpeg", 
   ];
 
   useEffect(() => {

@@ -50,7 +50,8 @@ export const AppProvider = ({ children }) => {
             if (data.success) {
                 setIsOwner(data.role === "hotelOwner")
                 setSearchCities(data.recentSearchedCities)
-                // console.log("recent search cities : ",data)
+                // const token = await getToken()
+                // console.log("recent search cities : ",token)
             } else {
                 setTimeout(() => { 
                     fetchUser()
